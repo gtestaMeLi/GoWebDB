@@ -22,5 +22,13 @@ func NewRepository(db *sql.DB) Repository {
 }
 
 func (r *repository) GetByName(ctx context.Context, name string) (domain.Product, error) {
-	return domain.Product{}, nil
+	query := "SELECT * FROM products WHERE name = ?;"
+	row := r.db.QueryRow(query, name)
+	p := domain.Product{}
+	err := row.Scan(&p.ID, &p.Name, &p.Type, &p.Count, &p.Price)
+	if err != nil {
+		return domain.Product{}, err
+	}
+
+	return p, nil
 }

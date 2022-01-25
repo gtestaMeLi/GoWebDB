@@ -2,6 +2,7 @@ package product
 
 import (
 	"context"
+	"fmt"
 
 	"github.com/gtestaMeLi/GoWebDB/internal/domain"
 )
@@ -21,5 +22,9 @@ func NewService(r Repository) Service {
 }
 
 func (s *service) GetByName(ctx context.Context, name string) (domain.Product, error) {
-	return domain.Product{}, nil
+	product, err := s.repo.GetByName(ctx, name)
+	if product.ID == 0 {
+		return domain.Product{}, fmt.Errorf("Error: no such product %s", name)
+	}
+	return product, err
 }
