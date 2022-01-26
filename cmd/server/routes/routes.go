@@ -40,6 +40,7 @@ func (r *router) buildProductRoutes() {
 	groupsAPI := r.rg
 	{
 		groupsAPI.GET("/products/:name", handler.GetByName())
+		groupsAPI.POST("/products/", handler.Store())
 	}
 
 }
